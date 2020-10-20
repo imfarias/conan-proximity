@@ -8,6 +8,17 @@ function onRequest(request, response) {
 
     const url_parts = url.parse(request.url, true);
     const query = url_parts.query;
+
+    if(
+        !query
+        || !query.player
+    ) {
+        response.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
+        response.write('Não foi passado o Nome do usuário');
+        response.end();
+
+        return;
+    }
     
     (async () => {
         try {
