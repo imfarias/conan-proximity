@@ -9,6 +9,8 @@ function onRequest(request, response) {
     const url_parts = url.parse(request.url, true);
     const query = url_parts.query;
 
+    const differenceDistance = 50000;
+
     if(
         !query
         || !query.player
@@ -50,18 +52,30 @@ function onRequest(request, response) {
         }
 
         const proximityPlayers = onlinePlayers.filter(item => {
-            const distancePlayer = distance(filteredPlayer.player.longitude, filteredPlayer.player.latitude, item.player.longitude, item.player.latitude);
+            
+            const filteredPlayerLongitudeMax = parseInt(filteredPlayer.player.longitude) + differenceDistance;
+            const filteredPlayerLongitudeMin = parseInt(filteredPlayer.player.longitude) - differenceDistance;
 
-            return item.stream.channel && distancePlayer <= 2500 && item.player.name !== query.player;
+            const filteredPlayerLatitudeMax = parseInt(filteredPlayer.player.latitude) + differenceDistance;
+            const filteredPlayerLatitudeMin = parseInt(filteredPlayer.player.latitude) - differenceDistance;
+
+            return item.player.name !== query.player 
+                && item.stream 
+                && item.stream.channel
+                && (parseInt(item.player.longitude) >= filteredPlayerLongitudeMin && (item.player.longitude) <= filteredPlayerLongitudeMax)
+                && (parseInt(item.player.latitude) >= filteredPlayerLatitudeMin && (item.player.latitude) <= filteredPlayerLatitudeMax);
+
         });
 
         let liveMap = proximityPlayers.map(item => {
 
-            return item.stream.channel.displayName;
+            return item.stream.channel.name;
 
         });
 
-        if(!liveMap) {
+
+
+        if(!liveMap.length) {
             response.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
             response.write(`Não há nenhum streamer próximo`);
             response.end();
@@ -72,7 +86,7 @@ function onRequest(request, response) {
         liveMap = liveMap.join('/');
         
         response.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
-        response.write(`https://multitwitch.tv/${filteredPlayer}/${liveMap}`);
+        response.write(`https://multitwitch.tv/${filteredPlayer.stream.channel.name}/${liveMap}`);
         response.end();
     } catch(err) { 
         console.log(err);
