@@ -1,4 +1,4 @@
-# StreamElements Conan Exiles Proximity
+# StreamElements Conan Exiles Proximity (RP dos Streamers)
 
 Welcome to Conan Exiles Proximity Command to your Livestream.
 
