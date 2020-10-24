@@ -1,4 +1,4 @@
-# StreamElements Conan Exiles Proximity
+# StreamElements Conan Exiles Proximity (RP dos Streamers)
 
 Welcome to Conan Exiles Proximity Command to your Livestream.
 
@@ -15,3 +15,7 @@ THORIN is near by a lot of characters that stream the game. So, if we search by 
 So if we put this command at your stream, the following result will be shown:
 
 ![enter image description here](https://i.imgur.com/rcHtelA.png)
+
+The range from user is a box of 50000 units, if some player are at this range they will be shown at the command
+
+![enter image description here](https://i.imgur.com/ufF1jco.png)
